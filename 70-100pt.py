@@ -7,6 +7,7 @@
 
 # 70pt - Add buttons for left, right and down that move the player circle
 # 100pt - using lab 11 as an example, add in three horizontally scrolling "enemies"
+
 # Make them scroll at different speeds and directions.
 
 from Tkinter import *
@@ -16,7 +17,7 @@ drawpad = Canvas(root, width=800,height=600, background='white')
 player = drawpad.create_oval(390,580,410,600, fill="red")
 
 # Create your "enemies" here, before the class
-
+enemy = drawpad.create_oval(200,200,250,250, fill ='red')
 
 class MyApp:
 	def __init__(self, parent):
@@ -30,7 +31,19 @@ class MyApp:
        	    # Bind an event to the first button
        	    self.up.bind("<Button-1>", self.upClicked)
        	    
-       	    # No need to edit this - just includes the drawpad into our frame
+    	    self.down = Button(self.myContainer1)
+       	    self.down.configure(text="down", background= "red")
+       	    self.down.grid(row=2,column=0)
+
+            self.left = Button(self.myContainer1)
+       	    self.left.configure(text="left", background= "red")
+       	    self.left.grid(row=2,column=0)
+       	    
+       	    self.right = Button(self.myContainer1)
+       	    self.right.configure(text="right", background= "red")
+       	    self.right.grid(row=2,column=0)
+       	    
+            # No need to edit this - just includes the drawpad into our frame
        	    drawpad.pack(side=RIGHT)
        	    # call the animate function to start our recursion
        	    self.animate()
@@ -41,7 +54,7 @@ class MyApp:
 	    # Remember to include your "enemies" with "global"
 	    
 	    # Uncomment this when you're ready to test out your animation!
-	    #drawpad.after(10,self.animate)
+	    drawpad.after(10,self.animate)
 		
 	def upClicked(self, event):   
 	   global oval
