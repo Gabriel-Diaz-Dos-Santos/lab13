@@ -18,6 +18,9 @@ player = drawpad.create_oval(390,580,410,600, fill="red")
 
 # Create your "enemies" here, before the class
 enemy = drawpad.create_oval(200,200,250,250, fill ='red')
+enemy2 = drawpad.create_oval(300,300,350,350, fill ='red')
+enemy3 = drawpad.create_oval(500,500,550,550, fill ='red')
+direction = 1
 
 class MyApp:
 	def __init__(self, parent):
@@ -32,25 +35,30 @@ class MyApp:
        	    self.up.bind("<Button-1>", self.upClicked)
        	    
     	    self.down = Button(self.myContainer1)
-       	    self.down.configure(text="down", background= "red")
-       	    self.down.grid(row=2,column=0)
+       	    self.down.configure(text="down", background= "blue")
+       	    self.down.grid(row=0,column=2)
+       	    self.down.bind("<Button-1>", self.downClicked)
 
             self.left = Button(self.myContainer1)
-       	    self.left.configure(text="left", background= "red")
-       	    self.left.grid(row=2,column=0)
+       	    self.left.configure(text="left", background= "yellow")
+       	    self.left.grid(row=0,column=3)
+       	    self.left.bind("<Button-1>", self.leftClicked)
        	    
        	    self.right = Button(self.myContainer1)
        	    self.right.configure(text="right", background= "red")
-       	    self.right.grid(row=2,column=0)
-       	    
+       	    self.right.grid(row=0,column=4)
+       	    self.right.bind("<Button-1>", self.rightClicked)
             # No need to edit this - just includes the drawpad into our frame
        	    drawpad.pack(side=RIGHT)
        	    # call the animate function to start our recursion
        	    self.animate()
-	
+       	    self.animate2()
+	    self.animate3()
+
 	def animate(self):
 	    global drawpad
 	    global player
+	    global enemy 
 	    # Remember to include your "enemies" with "global"
 	    
 	    # Uncomment this when you're ready to test out your animation!
@@ -60,7 +68,61 @@ class MyApp:
 	   global oval
 	   global player
 	   drawpad.move(player,0,-20)
+	 
+        def downClicked(self, event):
+           global oval
+           global player
+           drawpad.move(player,0,20)
+           
+        def rightClicked(self, event):
+           global oval
+           global player
+           drawpad.move(player,20,0)
 		
+        def leftClicked(self, event):
+           global oval
+           global player
+           drawpad.move(player,-20,0)
+           
+        def animate(self):
+            global direction
+    # Get the x and y co-ordinates of the circle
+            x1, y1, x2, y2 = drawpad.coords(enemy)
+            if x2 > drawpad.winfo_width(): 
+                direction = - 3
+            elif x1 < 0:
+                direction = 3
+    #Move our oval object by the value of direction
+            drawpad.move(enemy,direction,0)
+    # Wait for 1 millisecond, then recursively call our animate function
+            drawpad.after(1, self.animate)
+    
+        def animate2(self):
+            global direction
+    # Get the x and y co-ordinates of the circle
+            x1, y1, x2, y2 = drawpad.coords(enemy2)
+            if x2 > drawpad.winfo_width(): 
+                direction = - 4
+            elif x1 < 3:
+                direction = 4
+    #Move our oval object by the value of direction
+            drawpad.move(enemy2,direction,0)
+    # Wait for 1 millisecond, then recursively call our animate function
+            drawpad.after(1, self.animate2)
 
+        def animate3(self):
+            global direction
+    # Get the x and y co-ordinates of the circle
+            x1, y1, x2, y2 = drawpad.coords(enemy3)
+            if x2 > drawpad.winfo_width(): 
+                direction = - 2
+            elif x1 < 6:
+                direction = 2
+    #Move our oval object by the value of direction
+            drawpad.move(enemy3,direction,0)
+    # Wait for 1 millisecond, then recursively call our animate function
+            drawpad.after(1, self.animate3)
+           
+            
 app = MyApp(root)
 root.mainloop()
